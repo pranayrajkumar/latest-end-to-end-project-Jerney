@@ -1,5 +1,6 @@
 # ---- Build stage ----
-FROM node:20-alpine AS build
+# Optimization 1: Hardening the Node base image to use a specific patch version
+FROM node:20.17.0-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json* ./
 
@@ -14,7 +15,8 @@ COPY . .
 RUN npm run build
 
 # ---- Production stage ----
-FROM nginx:1.27-alpine AS production
+# Optimization 2: Explicitly tag Nginx version to clear out base layer CVEs 
+FROM nginx:1.27.1-alpine AS production
 
 # Security: remove default nginx config
 RUN rm -rf /etc/nginx/conf.d/default.conf /usr/share/nginx/html/*
@@ -34,6 +36,7 @@ RUN chown -R nginx:nginx /usr/share/nginx/html && \
 
 USER nginx
 
-EXPOSE 80
+# Pitfall Fix: Switched from port 80 to port 8080
+EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]
