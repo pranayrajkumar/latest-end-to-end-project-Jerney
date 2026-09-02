@@ -2,7 +2,13 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json* ./
-RUN npm ci --only=production && npm cache clean --force
+
+# FIXED: Fallback to standard install if package-lock.json doesn't exist
+RUN if [ -f package-lock.json ]; then \
+      npm ci --only=production; \
+    else \
+      npm install --omit=dev; \
+    fi && npm cache clean --force
 
 # ---- Production stage ----
 FROM node:20-alpine AS production
