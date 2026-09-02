@@ -324,7 +324,7 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false # Nginx needs write for cache/pid
             runAsNonRoot: true
-            runAsUser: 101 # nginx user UID in alpine
+            # nginx user UID in alpine
             capabilities:
               drop:
                 - ALL
