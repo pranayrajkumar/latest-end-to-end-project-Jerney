@@ -200,7 +200,7 @@ spec:
               echo "DB is ready!"
       containers:
         - name: backend
-          image: bpranayraj/backend_image:latest
+          image: ghcr.io/pranayrajkumar/latest-end-to-end-project-Jerney/jerney-backend:42875cf
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
@@ -308,7 +308,7 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: frontend
-          image: bpranayraj/frontend_image
+          image: ghcr.io/pranayrajkumar/latest-end-to-end-project-Jerney/jerney-frontend:42875cf
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
