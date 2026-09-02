@@ -10,12 +10,15 @@ FROM node:20-alpine AS production
 # Security: run as non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
-# Security: remove unnecessary packages
+# Security: install dumb-init (and clean apk cache automatically)
 RUN apk --no-cache add dumb-init
 
 WORKDIR /app
 
-# Copy only production dependencies from build stage
+# Crucial Fix: Copy package.json so Node can read project metadata at runtime
+COPY package.json ./
+
+# Copy only production dependencies and source from build stage
 COPY --from=build /app/node_modules ./node_modules
 COPY src/ ./src/
 

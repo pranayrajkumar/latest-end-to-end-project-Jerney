@@ -200,7 +200,8 @@ spec:
               echo "DB is ready!"
       containers:
         - name: backend
-          image: ghcr.io/iam-veeramalla/Jerney/jerney-backend:75da1da
+          image: bpranayraj/backend_image:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
               protocol: TCP
@@ -258,7 +259,7 @@ spec:
             timeoutSeconds: 3
 
 ---
-# ---- Backend Service (ClusterIP — internal only) ----
+# ---- Backend Service (COPY package.json ) ----
 apiVersion: v1
 kind: Service
 metadata:
@@ -307,7 +308,8 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: frontend
-          image: ghcr.io/iam-veeramalla/Jerney/jerney-frontend:75da1da
+          image: bpranayraj/frontend_image
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
               protocol: TCP
